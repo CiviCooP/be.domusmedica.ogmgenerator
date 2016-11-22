@@ -37,6 +37,8 @@ function ogmgenerator_civicrm_install() {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_uninstall
  */
 function ogmgenerator_civicrm_uninstall() {
+  require_once 'CRM/Ogmgenerator/DomusOgm.php';
+  CRM_Ogmgenerator_DomusOgm::removeCustomGroup();
   _ogmgenerator_civix_civicrm_uninstall();
 }
 
@@ -46,6 +48,8 @@ function ogmgenerator_civicrm_uninstall() {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_enable
  */
 function ogmgenerator_civicrm_enable() {
+  require_once 'CRM/Ogmgenerator/DomusOgm.php';
+  CRM_Ogmgenerator_DomusOgm::createCustomData();
   _ogmgenerator_civix_civicrm_enable();
 }
 
@@ -55,6 +59,8 @@ function ogmgenerator_civicrm_enable() {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_disable
  */
 function ogmgenerator_civicrm_disable() {
+  require_once 'CRM/Ogmgenerator/DomusOgm.php';
+  CRM_Ogmgenerator_DomusOgm::disableCustomGroup();
   _ogmgenerator_civix_civicrm_disable();
 }
 

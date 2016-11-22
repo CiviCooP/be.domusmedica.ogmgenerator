@@ -1,26 +1,26 @@
 <?xml version="1.0"?>
 <extension key="be.domusmedica.ogmgenerator" type="module">
   <file>ogmgenerator</file>
-  <name>FIXME</name>
-  <description>FIXME</description>
+  <name>DomusMedica OGM generator</name>
+  <description>Native CiviCRM extension om OGM nummers te genereren voor DomusMedica</description>
   <license>AGPL-3.0</license>
   <maintainer>
-    <author>Erik Hommel</author>
-    <email>hommel@ee-atwork.nl</email>
+    <author>Erik Hommel (CiviCooP)</author>
+    <email>erik.hommel@civicoop.org</email>
   </maintainer>
   <urls>
-    <url desc="Main Extension Page">http://FIXME</url>
-    <url desc="Documentation">http://FIXME</url>
-    <url desc="Support">http://FIXME</url>
+    <url desc="Main Extension Page">https://github.com/CiviCooP/be.domusmedica.ogmgenerator</url>
+    <url desc="Documentation">https://github.com/CiviCooP/be.domusmedica.ogmgenerator</url>
+    <url desc="Support">http://www.civicoop.org</url>
     <url desc="Licensing">http://www.gnu.org/licenses/agpl-3.0.html</url>
   </urls>
   <releaseDate>2016-11-22</releaseDate>
   <version>1.0</version>
-  <develStage>alpha</develStage>
+  <develStage>beta</develStage>
   <compatibility>
-    <ver>4.2</ver>
+    <ver>4.6</ver>
   </compatibility>
-  <comments>This is a new, undeveloped module</comments>
+  <comments>Extension is being tested</comments>
   <civix>
     <namespace>CRM/Ogmgenerator</namespace>
   </civix>
