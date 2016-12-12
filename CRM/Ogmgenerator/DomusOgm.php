@@ -75,11 +75,23 @@ class CRM_Ogmgenerator_DomusOgm {
    * @return string
    */
   public static function generateOgm($invoiceId) {
-    $leadingZeros = 8 - strlen($invoiceId);
-    for ($i = 1; $i <= $leadingZeros; $i++) {
-      $invoiceId = '0'.$invoiceId;
+    // get invoice prefix
+    $settings = CRM_Core_BAO_Setting::getItem('Contribute Preferences');
+    $invoicePrefix = $settings['contribution_invoice_settings']['invoice_prefix'];
+    $lenPrefix = trim(strlen($invoicePrefix));
+    // split part after invoice prefix
+    $parts = explode($invoicePrefix, $invoiceId);
+    if (isset($parts[1])) {
+      $leadingZeros = 8 - ($lenPrefix + strlen(trim($parts[1])));
+      $invoiceSuffix = trim($parts[1]);
+    } else {
+      $leadingZeros = 8 - strlen($invoiceId);
+      $invoiceSuffix = $invoiceId;
     }
-    $ogmBase = '97'.$invoiceId;
+    for ($i = 1; $i <= $leadingZeros; $i++) {
+      $invoiceSuffix = '0'.$invoiceSuffix;
+    }
+    $ogmBase = '97'.$invoicePrefix.$invoiceSuffix;
     $ogmCheck = $invoiceId % 97;
     return $ogmBase.$ogmCheck;
   }
