@@ -95,4 +95,35 @@ class CRM_Ogmgenerator_DomusOgm {
     $ogmCheck = $invoiceId % 97;
     return $ogmBase.$ogmCheck;
   }
+
+  /**
+   * Method to disable custom field
+   */
+  public static function disableCustomField() {
+    try {
+      $customFieldId = civicrm_api3('CustomField', 'getvalue', array(
+        'custom_group_id' => 'domus_contribution_data',
+        'name' => 'domus_ogm',
+        'return' => 'id'
+      ));
+      civicrm_api3('CustomField', 'create', array(
+        'id' => $customFieldId,
+        'is_active' => 0
+      ));
+    } catch (CiviCRM_API3_Exception $ex) {}
+  }
+
+  /**
+   * Method to remove custom field
+   */
+  public static function removeCustomField() {
+    try {
+      $customFieldId = civicrm_api3('CustomField', 'getvalue', array(
+        'custom_group_id' => 'domus_contribution_data',
+        'name' => 'domus_ogm',
+        'return' => 'id'
+      ));
+      civicrm_api3('CustomField', 'delete', array('id' => $customFieldId));
+    } catch (CiviCRM_API3_Exception $ex) {}
+  }
 }

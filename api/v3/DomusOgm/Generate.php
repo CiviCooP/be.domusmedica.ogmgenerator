@@ -35,7 +35,7 @@ function civicrm_api3_domus_ogm_Generate($params) {
       $ogmSql = 'UPDATE civicrm_value_domus_contribution_data SET domus_ogm = %1 WHERE entity_id = %2';
     }
     CRM_Core_DAO::executeQuery($ogmSql, array(
-      1 => array($ogmNumber, 'Integer'),
+      1 => array($ogmNumber, 'String'),
       2 => array($dao->id, 'Integer')
     ));
     $returnValues[] = 'OGM '.$ogmNumber.' generated for contribution '.$dao->id;

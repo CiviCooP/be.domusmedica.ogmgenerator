@@ -38,7 +38,7 @@ function ogmgenerator_civicrm_install() {
  */
 function ogmgenerator_civicrm_uninstall() {
   require_once 'CRM/Ogmgenerator/DomusOgm.php';
-  CRM_Ogmgenerator_DomusOgm::removeCustomGroup();
+  CRM_Ogmgenerator_DomusOgm::removeCustomField();
   _ogmgenerator_civix_civicrm_uninstall();
 }
 
@@ -60,7 +60,7 @@ function ogmgenerator_civicrm_enable() {
  */
 function ogmgenerator_civicrm_disable() {
   require_once 'CRM/Ogmgenerator/DomusOgm.php';
-  CRM_Ogmgenerator_DomusOgm::disableCustomGroup();
+  CRM_Ogmgenerator_DomusOgm::disableCustomField();
   _ogmgenerator_civix_civicrm_disable();
 }
 
