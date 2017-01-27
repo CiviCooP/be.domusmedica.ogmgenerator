@@ -47,8 +47,8 @@ function ogmgenerator_civicrm_install() {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_uninstall
  */
 function ogmgenerator_civicrm_uninstall() {
-  require_once 'CRM/Ogmgenerator/DomusOgm.php';
-  CRM_Ogmgenerator_DomusOgm::removeCustomField();
+  require_once 'CRM/Ogmgenerator/DomusInvoice.php';
+  CRM_Ogmgenerator_DomusInvoice::removeCustomField();
   _ogmgenerator_civix_civicrm_uninstall();
 }
 
