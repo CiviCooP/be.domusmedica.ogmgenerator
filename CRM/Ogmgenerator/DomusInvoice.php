@@ -54,8 +54,7 @@ class CRM_Ogmgenerator_DomusInvoice {
     $optionGroupName = 'domus_invoice';
     $optionValueName = 'domus_max_invoice_id';
     // first check if the option group exists and if not, create
-    $apiResult = civicrm_api3('OptionGroup', 'getcount', array('name' => $optionGroupName));
-    $countOptionGroup = $apiResult['result'];
+    $countOptionGroup = civicrm_api3('OptionGroup', 'getcount', array('name' => $optionGroupName));
     if ($countOptionGroup == 0) {
       civicrm_api3('OptionGroup', 'create', array(
         'name' => $optionGroupName,
@@ -72,11 +71,10 @@ class CRM_Ogmgenerator_DomusInvoice {
       ));
     } else {
       // check if option value exists and if not, create
-      $apiResult = civicrm_api3('OptionValue', 'getcount', array(
+      $countOptionValue = civicrm_api3('OptionValue', 'getcount', array(
         'option_group_id' => $optionGroupName,
         'name' => $optionValueName
       ));
-      $countOptionValue = $apiResult['result'];
       if ($countOptionValue == 0) {
         civicrm_api3('OptionValue', 'create', array(
           'option_group_id' => $optionGroupName,
