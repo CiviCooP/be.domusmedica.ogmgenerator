@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<menu>
+  <item>
+    <path>civicrm/domusinvfintypelist</path>
+    <page_callback>CRM_Ogmgenerator_Page_DomusInvFinType</page_callback>
+    <title>DomusInvFinType</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
+</menu>

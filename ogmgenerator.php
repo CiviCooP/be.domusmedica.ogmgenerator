@@ -3,6 +3,16 @@
 require_once 'ogmgenerator.civix.php';
 
 /**
+ * Implements hook_civicrm_navigationMenu
+ *
+ * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_navigationMenu
+ */
+function ogmgenerator_civicrm_navigationMenu(&$params) {
+}
+
+function ogmgenerator_civicrm_post($op, $objectName, $objectId, $objectRef) {
+}
+ /**
  * Implements hook_civicrm_config().
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_config
@@ -48,8 +58,8 @@ function ogmgenerator_civicrm_uninstall() {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_enable
  */
 function ogmgenerator_civicrm_enable() {
-  require_once 'CRM/Ogmgenerator/DomusOgm.php';
-  CRM_Ogmgenerator_DomusOgm::createCustomData();
+  require_once 'CRM/Ogmgenerator/DomusInvoice.php';
+  CRM_Ogmgenerator_DomusInvoice::createCustomData();
   _ogmgenerator_civix_civicrm_enable();
 }
 
@@ -59,8 +69,8 @@ function ogmgenerator_civicrm_enable() {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_disable
  */
 function ogmgenerator_civicrm_disable() {
-  require_once 'CRM/Ogmgenerator/DomusOgm.php';
-  CRM_Ogmgenerator_DomusOgm::disableCustomField();
+  require_once 'CRM/Ogmgenerator/DomusInvoice.php';
+  CRM_Ogmgenerator_DomusInvoice::disableCustomField();
   _ogmgenerator_civix_civicrm_disable();
 }
 
