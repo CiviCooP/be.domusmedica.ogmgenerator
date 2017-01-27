@@ -64,7 +64,7 @@ class CRM_Ogmgenerator_DomusInvoice {
         'is_reserved' => 1
       ));
       civicrm_api3('OptionValue', 'create', array(
-        'option_group' => $optionGroupName,
+        'option_group_id' => $optionGroupName,
         'name' => $optionValueName,
         'value' => '20170000',
         'is_active' => 1,
@@ -73,13 +73,13 @@ class CRM_Ogmgenerator_DomusInvoice {
     } else {
       // check if option value exists and if not, create
       $apiResult = civicrm_api3('OptionValue', 'getcount', array(
-        'option_group' => $optionGroupName,
+        'option_group_id' => $optionGroupName,
         'name' => $optionValueName
       ));
       $countOptionValue = $apiResult['result'];
       if ($countOptionValue == 0) {
         civicrm_api3('OptionValue', 'create', array(
-          'option_group' => $optionGroupName,
+          'option_group_id' => $optionGroupName,
           'name' => $optionValueName,
           'value' => '20170000',
           'is_active' => 1,
@@ -89,7 +89,7 @@ class CRM_Ogmgenerator_DomusInvoice {
     }
     // now return the option value array
     return civicrm_api3('OptionValue', 'getsingle', array(
-      'option_group' => $optionGroupName,
+      'option_group_id' => $optionGroupName,
       'name' => $optionValueName
     ));
   }
