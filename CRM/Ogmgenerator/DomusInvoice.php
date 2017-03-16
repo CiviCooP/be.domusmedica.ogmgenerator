@@ -7,10 +7,10 @@ class CRM_Ogmgenerator_DomusInvoice {
    * @param int $contributionId
    * @return string $invoiceId
    */
-  public static function generateDomusInvoiceId($contributionId) {
+  private static function generateDomusId($contributionId, $optionValueName, $idType) {
     // if contribution already has invoice use that
     try {
-      $invoiceId = civicrm_api3('Contribution', 'getvalue', array('id' => $contributionId, 'return' => 'invoice_id'));
+      $invoiceId = civicrm_api3('Contribution', 'getvalue', array('id' => $contributionId, 'return' => $idType));
       if (!empty($invoiceId)) {
         return $invoiceId;
       }
@@ -19,10 +19,10 @@ class CRM_Ogmgenerator_DomusInvoice {
     try {
       $domusInvoiceOptionValue = civicrm_api3('OptionValue', 'getsingle', array(
         'option_group' => 'domus_invoice',
-        'name' => 'domus_max_invoice_id'
+        'name' => $optionValueName,
       ));
     } catch (CiviCRM_API3_Exception $ex) {
-      $domusInvoiceOptionValue = self::createDomusMaxInvoiceOptionValue();
+      $domusInvoiceOptionValue = self::createDomusMaxInvoiceOptionValue($optionValueName);
     }
     // first 4 digits is year. Check if year is still valid. If not, initialize for the year
     $nowDate = new DateTime();
@@ -38,11 +38,20 @@ class CRM_Ogmgenerator_DomusInvoice {
     // now update max value in option value
     civicrm_api3('OptionValue', 'create', array(
       'id' => $domusInvoiceOptionValue['id'],
-      'value' => $invoiceId
+      'value' => $invoiceId,
     ));
     // create and save ogm in custom field
     self::saveDomusOgm($contributionId, $invoiceId);
     return $invoiceId;
+  }
+
+
+  public static function generateDomusInvoiceId($contributionId) {
+    return self::generateDomusId($contributionId, 'domus_max_invoice_id', 'invoice_id');
+  }
+
+  public static function generateDomusCreditNoteId($contributionId) {
+    return self::generateDomusId($contributionId, 'domus_max_creditnote_id', 'creditnote_id');
   }
 
   /**
@@ -50,9 +59,8 @@ class CRM_Ogmgenerator_DomusInvoice {
    *
    * @return array
    */
-  public static function createDomusMaxInvoiceOptionValue() {
+  public static function createDomusMaxInvoiceOptionValue($optionValueName) {
     $optionGroupName = 'domus_invoice';
-    $optionValueName = 'domus_max_invoice_id';
     // first check if the option group exists and if not, create
     $countOptionGroup = civicrm_api3('OptionGroup', 'getcount', array('name' => $optionGroupName));
     if ($countOptionGroup == 0) {
