@@ -1,57 +1,56 @@
 <?php
 class CRM_Ogmgenerator_DomusInvoice {
 
-  /**
-   * Method to generate Domus Medica Invoice ID
-   *
-   * @param int $contributionId
-   * @return string $invoiceId
-   */
-  private static function generateDomusId($contributionId, $optionValueName, $idType) {
-    // if contribution already has invoice use that
-    try {
-      $invoiceId = civicrm_api3('Contribution', 'getvalue', array('id' => $contributionId, 'return' => $idType));
-      if (!empty($invoiceId)) {
-        return $invoiceId;
-      }
-    } catch (CiviCRM_API3_Exception $ex) {}
-    // else generate new invoice id
+  private static function generateDomusId($optionValueName) {
     try {
       $domusInvoiceOptionValue = civicrm_api3('OptionValue', 'getsingle', array(
         'option_group' => 'domus_invoice',
         'name' => $optionValueName,
       ));
     } catch (CiviCRM_API3_Exception $ex) {
-      $domusInvoiceOptionValue = self::createDomusMaxInvoiceOptionValue($optionValueName);
+        $domusInvoiceOptionValue = self::createDomusMaxInvoiceOptionValue($optionValueName);
     }
     // first 4 digits is year. Check if year is still valid. If not, initialize for the year
     $nowDate = new DateTime();
     $nowYear = (int) $nowDate->format('Y');
     $maxYear = (int) substr($domusInvoiceOptionValue['value'], 0, 4);
     if ($nowYear > $maxYear) {
-      $invoiceId = (string) $nowYear.'0001';
+      $domusId = (string) $nowYear.'0001';
     } else {
       $base = (int) substr($domusInvoiceOptionValue['value'], 4,4);
       $newBase = str_pad(($base + 1), 4, '0', STR_PAD_LEFT);
-      $invoiceId = (string) $maxYear.$newBase;
+      $domusId = (string) $maxYear.$newBase;
     }
-    // now update max value in option value
+      // now update max value in option value
     civicrm_api3('OptionValue', 'create', array(
       'id' => $domusInvoiceOptionValue['id'],
-      'value' => $invoiceId,
+      'value' => $domusId,
     ));
+    return $domusId;
+  }
+  /**
+   * Method to generate Domus Medica Invoice ID
+   *
+   * @param int $contributionId
+   * @return string $invoiceId
+   */
+  public static function generateDomusInvoiceId($contributionId) {
+    // if contribution already has invoice use that
+    try {
+      $invoiceId = civicrm_api3('Contribution', 'getvalue', array('id' => $contributionId, 'return' => 'invoice_id'));
+      if (!empty($invoiceId)) {
+        return $invoiceId;
+      }
+    } catch (CiviCRM_API3_Exception $ex) {}
+    // else generate new invoice id
+    $invoiceId = CRM_Ogmgenerator_DomusInvoice::generateDomusId('domus_max_invoice_id');
     // create and save ogm in custom field
     self::saveDomusOgm($contributionId, $invoiceId);
     return $invoiceId;
   }
 
-
-  public static function generateDomusInvoiceId($contributionId) {
-    return self::generateDomusId($contributionId, 'domus_max_invoice_id', 'invoice_id');
-  }
-
-  public static function generateDomusCreditNoteId($contributionId) {
-    return self::generateDomusId($contributionId, 'domus_max_creditnote_id', 'creditnote_id');
+  public static function generateDomusCreditNoteId() {
+    return self::generateDomusId('domus_max_creditnote_id');
   }
 
   /**
