@@ -169,6 +169,7 @@ class CRM_Ogmgenerator_DomusInvoice {
     self::checkCustomData();
     $ogmBase = '97'.$invoiceId;
     $ogmCheck = $invoiceId % 97;
+    $ogmCheck = str_pad(ogmCheck, 2,"0",STR_PAD_LEFT);
     $domusOgm = $ogmBase.$ogmCheck;
     $countSql = 'SELECT COUNT(*) AS countOgm FROM civicrm_value_domus_contribution_data WHERE entity_id = %1';
     $countOgm = CRM_Core_DAO::singleValueQuery($countSql, array(1 => array($contributionId, 'Integer')));
