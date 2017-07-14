@@ -38,7 +38,7 @@ class CRM_Ogmgenerator_DomusInvoice {
     // if contribution already has invoice use that
     try {
       $invoiceId = civicrm_api3('Contribution', 'getvalue', array('id' => $contributionId, 'return' => 'invoice_id'));
-      if (!empty($invoiceId)) {
+      if (!empty($invoiceId)&&(strlen($invoiceId)<20)) {
         return $invoiceId;
       }
     } catch (CiviCRM_API3_Exception $ex) {}
